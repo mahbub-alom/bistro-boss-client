@@ -1,19 +1,48 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import authentication from "../../assets/others/authentication.gif";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { AuthContext } from "../../Providers/AuthProviders";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
+  const { createUser, updateUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
     console.log(data);
+    createUser(data.email, data.password)
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
+        updateUser(data.name, data.photoURL)
+          .then(() => {
+            console.log("user profile info update");
+            reset();
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "User Created Successful",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate('/')
+          })
+          .catch(error => {
+          console.log(error.message);
+        })
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   const handleShow = () => {
@@ -49,6 +78,20 @@ const SignUp = () => {
                   />
                   {errors.name && (
                     <span className="text-red-600 mt-2">Name is required</span>
+                  )}
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Photo URL</span>
+                  </label>
+                  <input
+                    type="url"
+                    {...register("photoURL", { required: true })}
+                    placeholder="Input Your Photo Url"
+                    className="input input-bordered"
+                  />
+                  {errors.photoURL && (
+                    <span className="text-red-600 mt-2">Photo URL is required</span>
                   )}
                 </div>
                 <div className="form-control">

@@ -1,21 +1,45 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProviders";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   const navItem = (
     <>
       <li>
-        <Link to='/'>Home</Link>
+        <Link to="/">Home</Link>
       </li>
       <li>
-        <Link to='/menu'>Our Menu</Link>
+        <Link to="/menu">Our Menu</Link>
       </li>
       <li>
-        <Link to='/order/salad'>Order Food</Link>
+        <Link to="/order/salad">Order Food</Link>
       </li>
       <li>
-        <Link to='/login'>Login</Link>
+        <Link to="/secret">Our secret</Link>
       </li>
+      {user ? (
+        <>
+          <li>
+            <Link onClick={handleLogOut}>Log Out</Link>
+          </li>
+        </>
+      ) : (
+        <>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -52,7 +76,13 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{navItem}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Get started</a>
+          <div className="avatar">
+            <div title={user.displayName} className="w-12 rounded-full">
+              {user && (
+                <img src={user.photoURL} />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </>
