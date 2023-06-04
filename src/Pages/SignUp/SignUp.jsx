@@ -25,7 +25,6 @@ const SignUp = () => {
         console.log(loggedUser);
         updateUser(data.name, data.photoURL)
           .then(() => {
-            console.log("user profile info update");
             reset();
             Swal.fire({
               position: "center",

@@ -31,7 +31,7 @@ const Navbar = () => {
         <Link to="/secret">Our secret</Link>
       </li>
       <li>
-        <Link to="/">
+        <Link to="/dashboard/mycart">
           <button className="flex  gap-2">
             <FaShoppingCart></FaShoppingCart>
             <div className="badge badge-secondary">+{ cart?.length||0}</div>
