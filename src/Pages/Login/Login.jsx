@@ -10,6 +10,7 @@ import { AuthContext } from "../../Providers/AuthProviders";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+import SocialLogin from "../Shared/SocialLogin";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -122,6 +123,7 @@ const Login = () => {
                     New here ? <Link to="/signUp">Create New Account</Link>{" "}
                   </small>
                 </p>
+                <SocialLogin></SocialLogin>
               </div>
             </form>
           </div>
