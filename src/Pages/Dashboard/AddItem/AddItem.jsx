@@ -2,16 +2,15 @@ import React from "react";
 import SectionTitle from "../../../Components/SectionTitle";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const img_hosting_token = import.meta.env.VITE_IMAGE_UPLOAD_TOKEN;
 
 const AddItem = () => {
-    const img_hosting_url = `https://api.imgbb.com/1/upload?expiration=600&key=${img_hosting_token}`;
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const [axiosSecure] = useAxiosSecure();
+    const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
+  const { register,handleSubmit,formState: { errors },} = useForm();
   const onSubmit = (data) => {
       const formData = new FormData();
       formData.append('image', data.image[0])
@@ -22,7 +21,18 @@ const AddItem = () => {
       })
           .then(res => res.json())
           .then(imgResponse => {
-          console.log(imgResponse);
+            if(imgResponse.success) {
+              const imgURL = imgResponse.data.display_url;
+              const { name, price, category, recipe } = data;
+              const newItem = { name, price:parseFloat(price), category, recipe, image: imgURL }
+              console.log(newItem);
+              axiosSecure.post('/menu', newItem)
+                .then(data => {
+                  if(data.data.insertedId) {
+                  Swal.fire("Congrats", "Item added successfully", "success");
+                }
+              })
+          }
       })
   };
   console.log(errors);
