@@ -29,7 +29,7 @@ const Navbar = () => {
       </li>
       <li>
         <Link to="/dashboard/mycart">
-          <button className="flex  gap-2">
+          <button className="flex justify-center items-center bg-slate-800 gap-2">
             <FaShoppingCart></FaShoppingCart>
             <div className="badge badge-secondary">+{ cart?.length||0}</div>
           </button>
