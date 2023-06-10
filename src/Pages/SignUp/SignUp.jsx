@@ -25,8 +25,8 @@ const SignUp = () => {
         console.log(loggedUser);
         updateUser(data.name, data.photoURL)
           .then(() => {
-            const savedUser = {name:data.name,email:data.email}
-            fetch("http://localhost:5000/users", {
+            const savedUser = { name: data.name, email: data.email };
+            fetch("https://bistro-boss-server-three-lake.vercel.app/users", {
               method: "POST",
               headers: {
                 "content-type": "application/json",
@@ -46,7 +46,7 @@ const SignUp = () => {
                   });
                   navigate("/");
                 }
-              })
+              });
           })
           .catch((error) => {
             console.log(error.message);

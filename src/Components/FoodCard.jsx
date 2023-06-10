@@ -9,50 +9,50 @@ const FoodCard = ({ item }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const [cart,refetch] = useCart();
+  const [cart, refetch] = useCart();
   const handleAddCart = (item) => {
-        if (user && user.email) {
-          const cartItem = {
-            menuItemId: _id,
-            name,
-            image,
-            price,
-            email: user.email,
-          };
-          fetch("http://localhost:5000/carts", {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify(cartItem),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              if(data.insertedId) {
-                refetch(); // refetch cart to update the number of items in the cart
-                Swal.fire({
-                  position: "center",
-                  icon: "success",
-                  title: "Your food Cart added successful",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-              }
+    if (user && user.email) {
+      const cartItem = {
+        menuItemId: _id,
+        name,
+        image,
+        price,
+        email: user.email,
+      };
+      fetch("https://bistro-boss-server-three-lake.vercel.app/carts", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(cartItem),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.insertedId) {
+            refetch(); // refetch cart to update the number of items in the cart
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Your food Cart added successful",
+              showConfirmButton: false,
+              timer: 1500,
             });
-        } else {
-          Swal.fire({
-            title: "Please login to order food",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Please Login",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/login", { state: { from: location } });
-            }
-          });
+          }
+        });
+    } else {
+      Swal.fire({
+        title: "Please login to order food",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Please Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login", { state: { from: location } });
         }
+      });
+    }
   };
   return (
     <div className="card w-96 bg-base-100 shadow-xl">

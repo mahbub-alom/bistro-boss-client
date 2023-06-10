@@ -5,14 +5,14 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper";
 import { Rating } from "@smastrom/react-rating";
-import '@smastrom/react-rating/style.css'
+import "@smastrom/react-rating/style.css";
 import { FaQuoteLeft } from "react-icons/fa";
 
 const TestiMonials = () => {
   const [review, setReview] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/reviews")
+    fetch("https://bistro-boss-server-three-lake.vercel.app/reviews")
       .then((res) => res.json())
       .then((data) => setReview(data));
   }, []);

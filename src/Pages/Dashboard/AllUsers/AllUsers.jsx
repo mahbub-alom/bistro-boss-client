@@ -13,24 +13,26 @@ const AllUsers = () => {
   });
 
   const handleMakeAdmin = (user) => {
-    fetch(`http://localhost:5000/users/admin/${user._id}`, {
-      method:'PATCH'
-    })
-      .then(res => res.json())
-      .then(data => {
-        if(data.modifiedCount) {
+    fetch(
+      `https://bistro-boss-server-three-lake.vercel.app/users/admin/${user._id}`,
+      {
+        method: "PATCH",
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount) {
           refetch();
           Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title:`${user.name} is an admin now`,
+            position: "center",
+            icon: "success",
+            title: `${user.name} is an admin now`,
             showConfirmButton: false,
-            timer:1500
-        });
-      }
-    })
-
-  }
+            timer: 1500,
+          });
+        }
+      });
+  };
 
   const handleDelete = (user) => {};
 
